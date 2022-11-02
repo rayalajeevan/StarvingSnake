@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/16475/Desktop/Game Project/StarvingSnake/app/src/main/res/drawable/round1.xml" value="0.1" />
+        <entry key="..\:/Users/16475/Desktop/Game Project/StarvingSnake/app/src/main/res/font/oswald.xml" value="0.1712962962962963" />
+        <entry key="..\:/Users/16475/Desktop/Game Project/StarvingSnake/app/src/main/res/layout/activity_game_level.xml" value="0.264" />
+        <entry key="..\:/Users/16475/Desktop/Game Project/StarvingSnake/app/src/main/res/layout/fragment_second.xml" value="0.25" />
+        <entry key="..\:/Users/16475/Desktop/Game Project/StarvingSnake/app/src/main/res/layout/player_details.xml" value="0.264" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>
