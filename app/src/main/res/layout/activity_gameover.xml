@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameoverActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="302dp"
+        android:layout_marginBottom="648dp"
+        android:src="@drawable/ic_baseline_home_24" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="293dp"
+        android:layout_height="103dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="138dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="490dp"
+        android:text="  Game "
+        android:textColor="#D41717"
+        android:textSize="73dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="74dp"
+        android:layout_marginTop="244dp"
+        android:layout_marginEnd="73dp"
+        android:layout_marginBottom="407dp"
+        android:text="   Over "
+        android:textColor="#D41717"
+        android:textSize="73dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="334dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginBottom="190dp"
+        android:background="@drawable/roundedcornersinedittext"
+        android:backgroundTint="#683B1E"
+        android:textStyle="bold"
+        android:text="Try Again" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="178dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="125dp"
+        android:layout_marginBottom="297dp"
+        android:text="Your Score : 600"
+        android:textStyle="bold"
+        android:textSize="23dp" />
+
+
+</RelativeLayout>

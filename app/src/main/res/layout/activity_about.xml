@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="302dp"
+        android:layout_marginBottom="648dp"
+        android:src="@drawable/ic_baseline_home_24" />
+
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="86dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="86dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="537dp"
+        android:text="  About "
+        android:textColor="#D41717"
+        android:textSize="73dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="389dp"
+        android:layout_height="265dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="221dp"
+        android:text="In this Snakegame,the player uses the arrow keys to move a snake around the board.As the snake finds food,it eats the food,and thereby grows larger.The game ends when the snake either moves off the screen or moves into itself.The goal is to make the snake as large as possible before that happens"
+        android:textSize="23dp"
+        android:textStyle="bold|italic" />
+
+
+</RelativeLayout>
