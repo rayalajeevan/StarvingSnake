@@ -163,7 +163,13 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
                 if (checkGameOver(headPosx,headPosY)){
                     timer.purge()
                     timer.cancel()
-                    makeAlertDialog("Game Over","Your Score is "+game_score.toString())
+                    val alert=AlertDialog.Builder(applicationContext)
+                    alert.setTitle("Game Over!")
+                    alert.setMessage("Your Score is "+game_score.toString())
+                    alert.setCancelable(false)
+                    this@PlayingAreaActivity.runOnUiThread(Runnable {
+                        alert.show()
+                    })
 
                 }
                 else{
@@ -172,40 +178,37 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
                     canvas?.drawCircle(snake_dots.get(0).getPositionX().toFloat(),
                         snake_dots.get(0).getPositionY().toFloat(), snake_max_length.toFloat(),createpaintColor()
                     )
-
-                }
-                canvas?.drawCircle(positionX.toFloat(),
-                    positionY.toFloat(), snake_max_length.toFloat(),createpaintColor())
-                for(i in 1..snake_dots.size-1){
-                    var getTempPositionX=snake_dots.get(i).getPositionX()
-                    var getTempPositionY=snake_dots.get(i).getPositionY()
-                    snake_dots.get(i).setPositionX(headPosx)
-                    snake_dots.get(i).setPositionY(headPosY)
-                    canvas?.drawCircle(snake_dots.get(i).getPositionX().toFloat(),
-                        snake_dots.get(i).getPositionY().toFloat(), snake_max_length.toFloat(),createpaintColor()
-                    )
+                    canvas?.drawCircle(positionX.toFloat(),
+                        positionY.toFloat(), snake_max_length.toFloat(),createpaintColor())
+                    for(i in 1..snake_dots.size-1){
+                        var getTempPositionX=snake_dots.get(i).getPositionX()
+                        var getTempPositionY=snake_dots.get(i).getPositionY()
+                        snake_dots.get(i).setPositionX(headPosx)
+                        snake_dots.get(i).setPositionY(headPosY)
+                        canvas?.drawCircle(snake_dots.get(i).getPositionX().toFloat(),
+                            snake_dots.get(i).getPositionY().toFloat(), snake_max_length.toFloat(),createpaintColor()
+                        )
+                        headPosx=getTempPositionX
+                        headPosY=getTempPositionY
+                    }
                 }
                 surface_holder.unlockCanvasAndPost(canvas)
-
-
             }
         },(1000-snake_moving_speed).toLong(),(1000-snake_moving_speed).toLong())
+
     }
     private  fun growSnake(){
         var snake_dot:SnakeDots= SnakeDots(0,0)
         snake_dots.add(snake_dot)
         game_score=game_score+1
-        score_view?.setText(game_score.toString())
+        this@PlayingAreaActivity.runOnUiThread(Runnable {
+            score_view?.setText(game_score.toString())
+        })
+
 
     }
 
-    private  fun makeAlertDialog(title:String,message:String){
-//        val alert=AlertDialog.Builder(this)
-//        alert.setTitle(title)
-//        alert.setMessage(message)
-//        alert.setCancelable(false)
-//        alert.show()
-    }
+
 
     private  fun checkGameOver(headPositionX:Int,headPositionY:Int):Boolean{
         var game_over:Boolean=false
