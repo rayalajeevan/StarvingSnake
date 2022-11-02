@@ -19,16 +19,16 @@ import kotlin.concurrent.timerTask
 class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
     private lateinit  var surface_vew:SurfaceView
 
-    private var snake_movable_position:String="r"
+    private var snake_movable_position:String="t"
 
     private  lateinit var surface_holder:SurfaceHolder
 
     private  var  snake_dots = ArrayList<SnakeDots>()
     private  var game_score:Int=0
 
-    private  var snake_max_length:Int=20
-    private  var snake_default_length:Int=4
-    private  var snake_color:Int=Color.BLACK
+    private  var snake_max_length:Int=28
+    private  var snake_default_length:Int=3
+    private  var snake_color:Int=Color.YELLOW
     private  var snake_moving_speed:Int=800
 
     private  var positionX:Int = 0
@@ -53,25 +53,25 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
         surface_vew.holder.addCallback(this)
 
         top_Btn.setOnClickListener {
-            if(snake_movable_position.equals("b")){
+            if(!snake_movable_position.equals("b")){
                 snake_movable_position="t"
             }
         }
 
         down_Btn.setOnClickListener {
-            if(snake_movable_position.equals("t")){
+            if(!snake_movable_position.equals("t")){
                 snake_movable_position="b"
             }
         }
 
         left_Btn.setOnClickListener {
-            if(snake_movable_position.equals("r")){
+            if(!snake_movable_position.equals("r")){
                 snake_movable_position="l"
             }
         }
 
         right_Btn.setOnClickListener {
-            if(snake_movable_position.equals("l")){
+            if(!snake_movable_position.equals("l")){
                 snake_movable_position="r"
             }
         }
@@ -80,7 +80,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
     }
 
     override fun surfaceCreated(p0: SurfaceHolder) {
-        this.surface_holder=surface_holder
+        surface_holder=p0
         reset()
     }
 
@@ -101,7 +101,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
 
         var start_position:Int=(snake_max_length)*snake_default_length
 
-        for(i in 0..start_position){
+        for(i in 0..snake_default_length-1){
             var snake_dot:SnakeDots= SnakeDots(start_position,snake_max_length)
             snake_dots.add(snake_dot)
             start_position=start_position-(snake_max_length*2)
@@ -130,7 +130,8 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
     }
 
     private  fun moveSnake(){
-        Timer().scheduleAtFixedRate(object :TimerTask(){
+        timer=Timer()
+        timer.scheduleAtFixedRate(object :TimerTask(){
             override fun run() {
 
                 var headPosx=snake_dots.get(0).getPositionX()
@@ -144,19 +145,19 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
 
                 if (snake_movable_position=="r"){
                     snake_dots.get(0).setPositionX(headPosx+(snake_max_length*2))
-                    snake_dots.get(0).setPositionX(headPosY)
+                    snake_dots.get(0).setPositionY(headPosY)
                 }
                 else if (snake_movable_position=="l"){
                     snake_dots.get(0).setPositionX(headPosx-(snake_max_length*2))
-                    snake_dots.get(0).setPositionX(headPosY)
+                    snake_dots.get(0).setPositionY(headPosY)
                 }
                 else if (snake_movable_position=="t"){
-                    snake_dots.get(0).setPositionX(headPosx+(snake_max_length*2))
-                    snake_dots.get(0).setPositionX(headPosY-(snake_max_length*2))
+                    snake_dots.get(0).setPositionX(headPosx)
+                    snake_dots.get(0).setPositionY(headPosY-(snake_max_length*2))
                 }
                 else if (snake_movable_position=="b"){
-                    snake_dots.get(0).setPositionX(headPosx+(snake_max_length*2))
-                    snake_dots.get(0).setPositionX(headPosY+(snake_max_length*2))
+                    snake_dots.get(0).setPositionX(headPosx)
+                    snake_dots.get(0).setPositionY(headPosY+(snake_max_length*2))
                 }
 
                 if (checkGameOver(headPosx,headPosY)){
@@ -175,7 +176,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
                 }
                 canvas?.drawCircle(positionX.toFloat(),
                     positionY.toFloat(), snake_max_length.toFloat(),createpaintColor())
-                for(i in 1..snake_dots.size){
+                for(i in 1..snake_dots.size-1){
                     var getTempPositionX=snake_dots.get(i).getPositionX()
                     var getTempPositionY=snake_dots.get(i).getPositionY()
                     snake_dots.get(i).setPositionX(headPosx)
@@ -199,11 +200,11 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
     }
 
     private  fun makeAlertDialog(title:String,message:String){
-        val alert=AlertDialog.Builder(this)
-        alert.setTitle(title)
-        alert.setMessage(message)
-        alert.setCancelable(false)
-        alert.show()
+//        val alert=AlertDialog.Builder(this)
+//        alert.setTitle(title)
+//        alert.setMessage(message)
+//        alert.setCancelable(false)
+//        alert.show()
     }
 
     private  fun checkGameOver(headPositionX:Int,headPositionY:Int):Boolean{
@@ -212,7 +213,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
             game_over=true
         }
         else{
-            for (i in 0..snake_dots.size){
+            for (i in 1..snake_dots.size-1){
                 if(headPositionX==snake_dots.get(i).getPositionX() && headPositionY==snake_dots.get(i).getPositionY()){
                     game_over=true
                     break
