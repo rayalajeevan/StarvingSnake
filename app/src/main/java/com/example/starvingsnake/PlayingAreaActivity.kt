@@ -8,17 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.constraintlayout.motion.widget.OnSwipe
+import java.lang.Math.abs
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.scheduleAtFixedRate
 import kotlin.concurrent.timerTask
 
-class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
+class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDetector.OnGestureListener {
     private lateinit  var surface_vew:SurfaceView
 
     private var snake_movable_position:String="t"
@@ -47,6 +52,9 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
     private var canvas:Canvas?=null
     private  var paint_color:Paint= Paint()
     private var score_view:TextView?=null
+    lateinit var gestureDetector: GestureDetector
+    private val SWIPE_THRESHOLD: Int = 100
+    private val SWIPE_VELOCITY_THRESHOLD: Int = 100
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playing_area)
@@ -59,7 +67,6 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
         var right_Btn:AppCompatImageButton=findViewById(R.id.right_btn)
 
         surface_vew.holder.addCallback(this)
-
         top_Btn.setOnClickListener {
             if(!snake_movable_position.equals("b")){
                 snake_movable_position="t"
@@ -84,7 +91,75 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
             }
         }
 
+        gestureDetector= GestureDetector(this,this)
 
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        gestureDetector?.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+
+    override fun onDown(p0: MotionEvent?): Boolean {
+        var x=p0
+        return  true
+    }
+
+    override fun onShowPress(p0: MotionEvent?) {
+
+    }
+
+    override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+       return true
+    }
+
+    override fun onScroll(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+       return true
+    }
+
+    override fun onLongPress(p0: MotionEvent?) {
+
+    }
+
+    override fun onFling(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+        var diffX=p1?.x!!.minus(p0?.x!!)
+        var diffY=p1?.y!!.minus(p0?.y!!)
+        var a=""
+        if (abs(diffX) > abs(diffY)) {
+            if (abs(diffX) > SWIPE_THRESHOLD && abs(
+                    p2
+                ) > SWIPE_VELOCITY_THRESHOLD
+            ) {
+                if (diffX > 0) {
+                    if(!snake_movable_position.equals("l")){
+                        snake_movable_position="r"
+                    }
+                }
+                else {
+                    if(!snake_movable_position.equals("r")){
+                        snake_movable_position="l"
+                    }
+                }
+            }
+        }
+        else {
+            if (abs(diffY) > SWIPE_THRESHOLD && abs(
+                    p3
+                ) > SWIPE_VELOCITY_THRESHOLD
+            ) {
+                if (diffY < 0) {
+                    if(!snake_movable_position.equals("b")){
+                        snake_movable_position="t"
+                    }
+                }
+                else {
+                    if(!snake_movable_position.equals("t")){
+                        snake_movable_position="b"
+                    }
+                }
+            }
+        }
+        return  true
     }
 
     override fun surfaceCreated(p0: SurfaceHolder) {
@@ -188,11 +263,11 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
                 if (checkGameOver(headPosx,headPosY)){
                     timer.purge()
                     timer.cancel()
-                    val alert=AlertDialog.Builder(applicationContext)
-                    alert.setTitle("Game Over!")
-                    alert.setMessage("Your Score is "+game_score.toString())
-                    alert.setCancelable(false)
                     this@PlayingAreaActivity.runOnUiThread(Runnable {
+                        val alert=AlertDialog.Builder(applicationContext)
+                        alert.setTitle("Game Over!")
+                        alert.setMessage("Your Score is "+game_score.toString())
+                        alert.setCancelable(false)
                         alert.show()
                     })
 
@@ -251,8 +326,9 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
                             score_view?.setText(game_score.toString())
                         })
                     }
+                    surface_holder.unlockCanvasAndPost(canvas)
                 }
-                surface_holder.unlockCanvasAndPost(canvas)
+
             }
         },(150).toLong(),(150).toLong())
 
@@ -311,6 +387,8 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
             return  paint_color
     }
 }
+
+
 
 
 
