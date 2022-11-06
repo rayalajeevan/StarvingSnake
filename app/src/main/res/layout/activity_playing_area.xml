@@ -35,6 +35,8 @@
         android:text="Quit"
         android:textSize="20dp" />
 
+
+
     <RelativeLayout
         android:layout_above="@+id/bottombar"
         android:layout_width="399dp"
@@ -46,16 +48,8 @@
         <SurfaceView
             android:id="@+id/surface_view"
             android:layout_width="393dp"
-            android:layout_height="494dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="0"
-            android:id="@+id/score_update_textView"
-            android:textSize="25sp" />
+            android:layout_height="494dp"
+            android:soundEffectsEnabled="true" />
 
     </RelativeLayout>
 
@@ -105,9 +99,19 @@
 
 </LinearLayout>
 
-
-
-
+    <TextView
+        android:id="@+id/score_update_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="185dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="212dp"
+        android:layout_marginBottom="682dp"
+        android:text="0"
+        android:textSize="25sp" />
 
 
 </RelativeLayout>

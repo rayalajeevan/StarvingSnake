@@ -28,11 +28,16 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
 
     private  var snake_max_length:Int=28
     private  var snake_default_length:Int=3
-    private  var snake_color:Int=Color.YELLOW
-    private  var snake_moving_speed:Int=800
+    private  var snake_color:Int=Color.WHITE
+    private  var snake_moving_speed:Int=2000
 
     private  var positionX:Int = 0
     private  var positionY:Int = 0
+
+    private  var bonus_positionX:Int = 0
+    private  var bonus_positionY:Int = 0
+    private  var point_tounched_counter:Int = 0
+    private var bonus_point_enabled:Boolean=false
 
     private  lateinit var timer:Timer
 
@@ -128,6 +133,22 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
         positionX=(snake_max_length*randonXposition)+snake_max_length
         positionY=(snake_max_length*randonYposition)+snake_max_length
     }
+    private fun addBonusPoint(){
+        var surface_width:Int=surface_vew.width-(snake_max_length*2)
+        var surface_height:Int=surface_vew.height-(snake_max_length*2)
+
+        var randonXposition:Int=Random().nextInt(surface_width/snake_max_length)
+        var randonYposition:Int=Random().nextInt(surface_height/snake_max_length)
+
+        if ((randonXposition % 2)!=0){
+            randonXposition=randonXposition+1
+        }
+        if ((randonYposition % 2)!=0){
+            randonYposition=randonYposition+1
+        }
+        bonus_positionX=(snake_max_length*randonXposition)+snake_max_length
+        bonus_positionY=(snake_max_length*randonYposition)+snake_max_length
+    }
 
     private  fun moveSnake(){
         timer=Timer()
@@ -136,8 +157,29 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
 
                 var headPosx=snake_dots.get(0).getPositionX()
                 var headPosY=snake_dots.get(0).getPositionY()
+                if(point_tounched_counter>=5 && bonus_point_enabled==false){
+                    addBonusPoint()
+                    canvas?.drawCircle(bonus_positionX.toFloat(),
+                        bonus_positionY.toFloat(), snake_max_length.toFloat(),createpaintColor(true,false))
+                    bonus_point_enabled=true
+                }
+
+                if(bonus_point_enabled && headPosx==bonus_positionX && headPosY==bonus_positionY){
+                    bonus_point_enabled=false
+                    bonus_positionX=0
+                    bonus_positionY=0
+                    point_tounched_counter=0
+                    game_score+=10
+                    canvas?.drawCircle(bonus_positionX.toFloat(),
+                        bonus_positionY.toFloat(), snake_max_length.toFloat(),createpaintColor(false,true))
+                    decreaseSnakeLength()
+                    this@PlayingAreaActivity.runOnUiThread(Runnable {
+                        score_view?.setText(game_score.toString())
+                    })
+                }
 
                 if (headPosx==positionX && headPosY==positionY){
+                    point_tounched_counter=point_tounched_counter+1
                     growSnake()
 
                     addPoint()
@@ -194,7 +236,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
                 }
                 surface_holder.unlockCanvasAndPost(canvas)
             }
-        },(1000-snake_moving_speed).toLong(),(1000-snake_moving_speed).toLong())
+        },(150).toLong(),(150).toLong())
 
     }
     private  fun growSnake(){
@@ -204,6 +246,18 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
         this@PlayingAreaActivity.runOnUiThread(Runnable {
             score_view?.setText(game_score.toString())
         })
+
+
+    }
+    private  fun decreaseSnakeLength(){
+        if(snake_dots.size>3) {
+            for (i in 1..snake_dots.size - 3) {
+                if(i>2){
+                    break
+                }
+                snake_dots.removeLast()
+            }
+        }
 
 
     }
@@ -226,8 +280,16 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
         return  game_over
     }
 
-    private  fun createpaintColor():Paint{
-            paint_color.setColor(snake_color)
+    private  fun createpaintColor(bonus_point:Boolean=false,bonus_point_clear:Boolean=false):Paint{
+            if(bonus_point){
+                paint_color.setColor(Color.YELLOW)
+            }
+        else if(bonus_point_clear){
+            paint_color.setColor(Color.BLACK)
+            }
+        else{
+                paint_color.setColor(snake_color)
+            }
             paint_color.style=Paint.Style.FILL
             paint_color.isAntiAlias=true
             return  paint_color

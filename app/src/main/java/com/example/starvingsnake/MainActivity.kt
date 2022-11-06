@@ -21,17 +21,13 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var btn1=findViewById<Button>(R.id.button)
-        btn1.setOnClickListener {
-            intent= Intent(this,PlayingAreaActivity::class.java)
+        var button=findViewById<Button>(R.id.button_first)
+        button.setOnClickListener {
+            val intent=Intent(this,PlayingAreaActivity::class.java)
             startActivity(intent)
         }
-
-
-
-
+        }
 
     }
 
 
-}
