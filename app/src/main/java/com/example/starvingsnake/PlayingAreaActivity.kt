@@ -6,6 +6,8 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.TextView
@@ -28,6 +30,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
 
     private  var snake_max_length:Int=28
     private  var snake_default_length:Int=3
+    private var  snake_bonus_point_length:Int=40
     private  var snake_color:Int=Color.WHITE
     private  var snake_moving_speed:Int=2000
 
@@ -157,26 +160,6 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
 
                 var headPosx=snake_dots.get(0).getPositionX()
                 var headPosY=snake_dots.get(0).getPositionY()
-                if(point_tounched_counter>=5 && bonus_point_enabled==false){
-                    addBonusPoint()
-                    canvas?.drawCircle(bonus_positionX.toFloat(),
-                        bonus_positionY.toFloat(), snake_max_length.toFloat(),createpaintColor(true,false))
-                    bonus_point_enabled=true
-                }
-
-                if(bonus_point_enabled && headPosx==bonus_positionX && headPosY==bonus_positionY){
-                    bonus_point_enabled=false
-                    bonus_positionX=0
-                    bonus_positionY=0
-                    point_tounched_counter=0
-                    game_score+=10
-                    canvas?.drawCircle(bonus_positionX.toFloat(),
-                        bonus_positionY.toFloat(), snake_max_length.toFloat(),createpaintColor(false,true))
-                    decreaseSnakeLength()
-                    this@PlayingAreaActivity.runOnUiThread(Runnable {
-                        score_view?.setText(game_score.toString())
-                    })
-                }
 
                 if (headPosx==positionX && headPosY==positionY){
                     point_tounched_counter=point_tounched_counter+1
@@ -233,6 +216,41 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
                         headPosx=getTempPositionX
                         headPosY=getTempPositionY
                     }
+                    if(point_tounched_counter>=5) {
+                        if(bonus_point_enabled==false){
+                            addBonusPoint()
+                        }
+                        bonus_point_enabled=true
+                        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                                                       if(bonus_point_enabled){
+                                                           bonus_point_enabled=false
+                                                           point_tounched_counter=0
+                                                       }
+                        },5000)
+                        if (snake_bonus_point_length==40){
+                            snake_bonus_point_length=32
+                        }
+                        else{
+                            snake_bonus_point_length=40
+                        }
+                        canvas?.drawCircle(
+                            bonus_positionX.toFloat(),
+                            bonus_positionY.toFloat(),
+                            snake_bonus_point_length.toFloat(),
+                            createpaintColor(true)
+                        )
+                    }
+                    if(bonus_point_enabled && headPosx==bonus_positionX && headPosY==bonus_positionY){
+                        bonus_point_enabled=false
+                        bonus_positionX=0
+                        bonus_positionY=0
+                        point_tounched_counter=0
+                        game_score+=10
+                        decreaseSnakeLength()
+                        this@PlayingAreaActivity.runOnUiThread(Runnable {
+                            score_view?.setText(game_score.toString())
+                        })
+                    }
                 }
                 surface_holder.unlockCanvasAndPost(canvas)
             }
@@ -280,15 +298,13 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback {
         return  game_over
     }
 
-    private  fun createpaintColor(bonus_point:Boolean=false,bonus_point_clear:Boolean=false):Paint{
+    private  fun createpaintColor(bonus_point:Boolean=false):Paint{
             if(bonus_point){
                 paint_color.setColor(Color.YELLOW)
             }
-        else if(bonus_point_clear){
-            paint_color.setColor(Color.BLACK)
-            }
+
         else{
-                paint_color.setColor(snake_color)
+            paint_color.setColor(snake_color)
             }
             paint_color.style=Paint.Style.FILL
             paint_color.isAntiAlias=true
