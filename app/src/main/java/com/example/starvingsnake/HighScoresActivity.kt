@@ -21,15 +21,36 @@ class HighScoresActivity : AppCompatActivity() {
         var player_3_score=findViewById<TextView>(R.id.player_3_score)
         var db=DatabaseAdapter(this,null)
         var cursor=db.getHighScores()
-        cursor?.moveToFirst()
-        player_1_username.setText(cursor?.getString(cursor.getColumnIndex(DatabaseAdapter.HIGHSCORE_USER_NAME)))
-        player_1_score.setText("Score is :"+cursor?.getInt(cursor?.getColumnIndex(DatabaseAdapter.HIGHSCORE)).toString())
-        cursor?.moveToNext()
-        player_2_username.setText(cursor?.getString(cursor.getColumnIndex(DatabaseAdapter.HIGHSCORE_USER_NAME)))
-        player_2_score.setText("Score is :"+cursor?.getInt(cursor?.getColumnIndex(DatabaseAdapter.HIGHSCORE)).toString())
-        cursor?.moveToNext()
-        player_3_username.setText(cursor?.getString(cursor.getColumnIndex(DatabaseAdapter.HIGHSCORE_USER_NAME)))
-        player_3_score.setText("Score is :"+cursor?.getInt(cursor?.getColumnIndex(DatabaseAdapter.HIGHSCORE)).toString())
+        if (cursor?.moveToFirst()==true) {
+            player_1_username.setText(cursor?.getString(cursor.getColumnIndex(DatabaseAdapter.HIGHSCORE_USER_NAME)))
+            player_1_score.setText(
+                "Score is :" + cursor?.getInt(
+                    cursor?.getColumnIndex(
+                        DatabaseAdapter.HIGHSCORE
+                    )
+                ).toString()
+            )
+        }
+            if (cursor?.moveToNext()==true) {
+            player_2_username.setText(cursor?.getString(cursor.getColumnIndex(DatabaseAdapter.HIGHSCORE_USER_NAME)))
+            player_2_score.setText(
+                "Score is :" + cursor?.getInt(
+                    cursor?.getColumnIndex(
+                        DatabaseAdapter.HIGHSCORE
+                    )
+                ).toString()
+            )
+        }
+        if (cursor?.moveToNext()==true) {
+            player_3_username.setText(cursor?.getString(cursor.getColumnIndex(DatabaseAdapter.HIGHSCORE_USER_NAME)))
+            player_3_score.setText(
+                "Score is :" + cursor?.getInt(
+                    cursor?.getColumnIndex(
+                        DatabaseAdapter.HIGHSCORE
+                    )
+                ).toString()
+            )
+        }
         home_btn.setOnClickListener {
             val intent=Intent(this,HomePageActivity::class.java)
             startActivity(intent)

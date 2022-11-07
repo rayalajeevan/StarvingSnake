@@ -23,7 +23,7 @@
         android:layout_width="292dp"
         android:layout_height="104dp"
         android:shadowColor="#8E6464"
-        android:text="Enter Player     Deatils"
+        android:text="Enter Player     Details"
         android:textColor="#683b1e"
         android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
