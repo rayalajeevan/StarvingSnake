@@ -16,6 +16,12 @@
         android:theme="@style/Theme.StarvingSnake"
         tools:targetApi="31">
         <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HighScoresActivity"
+            android:exported="false" />
+        <activity
             android:name=".GameLevelsActivity"
             android:exported="false" />
         <activity

@@ -7,7 +7,7 @@
     tools:context=".PlayerDeatilsActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/back_button_on_playerdeatils"
         android:layout_width="32dp"
         android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="parent"

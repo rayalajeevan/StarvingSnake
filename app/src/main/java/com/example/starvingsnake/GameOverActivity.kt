@@ -19,7 +19,7 @@ class GameOverActivity : AppCompatActivity() {
         text_game.setText("Your Score is "+game_score.toString())
         val try_gain_ntn=findViewById(R.id.button) as Button
         home_btn.setOnClickListener {
-            val intent=Intent(this,MainActivity::class.java)
+            val intent=Intent(this,HomePageActivity::class.java)
             startActivity(intent)
         }
         try_gain_ntn.setOnClickListener {

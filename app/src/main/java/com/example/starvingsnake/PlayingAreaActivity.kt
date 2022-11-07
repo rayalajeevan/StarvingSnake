@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.ContactsContract
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -67,16 +69,11 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         user_name=intent.getStringExtra("Username").toString()
         game_level=intent.getIntExtra("level",1).toInt()
         surface_vew=findViewById(R.id.surface_view)
-
         var top_Btn:AppCompatImageButton=findViewById(R.id.top_btn)
         var down_Btn:AppCompatImageButton=findViewById(R.id.down_btn)
         var left_Btn:AppCompatImageButton=findViewById(R.id.left_btn)
         var right_Btn:AppCompatImageButton=findViewById(R.id.right_btn)
         var quit_button=findViewById<TextView>(R.id.quit_button)
-        quit_button.setOnClickListener {
-            moveToGameOver()
-        }
-
         surface_vew.holder.addCallback(this)
         top_Btn.setOnClickListener {
             if(!snake_movable_position.equals("b")){
@@ -100,6 +97,13 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
             if(!snake_movable_position.equals("l")){
                 snake_movable_position="r"
             }
+        }
+        quit_button.setOnClickListener {
+            timer.purge()
+            timer.cancel()
+            moveToGameOver()
+
+
         }
 
         gestureDetector= GestureDetector(this,this)
@@ -239,12 +243,15 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         bonus_positionY=(snake_max_length*randonYposition)+snake_max_length
     }
     fun moveToGameOver(){
+        var db=DatabaseAdapter(this,null)
+        db.addScore(user_name.toString(),game_score.toInt())
         val intent=Intent(this,GameOverActivity::class.java)
         intent.putExtra("Game_score",game_score)
         intent.putExtra("Username",user_name)
         intent.putExtra("Username",user_name)
         intent.putExtra("level",game_level)
         startActivity(intent)
+        finish()
     }
 
     private  fun moveSnake(){
@@ -411,6 +418,12 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
             paint_color.style=Paint.Style.FILL
             paint_color.isAntiAlias=true
             return  paint_color
+    }
+
+    override fun onBackPressed() {
+        timer.purge()
+        timer.cancel()
+        super.onBackPressed()
     }
 }
 

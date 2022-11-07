@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         Handler().postDelayed(Runnable {
             val intent = Intent(this, HomePageActivity::class.java)
             startActivity(intent)
-        }, 5000)
+            finish()
+        }, 3000)
 
     }
 }
