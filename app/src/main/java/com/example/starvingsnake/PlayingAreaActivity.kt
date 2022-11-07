@@ -1,5 +1,6 @@
 package com.example.starvingsnake
 
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -25,6 +26,7 @@ import kotlin.concurrent.timerTask
 
 class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDetector.OnGestureListener {
     private lateinit  var surface_vew:SurfaceView
+    private var user_name:String="User"
 
     private var snake_movable_position:String="t"
 
@@ -227,6 +229,12 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         bonus_positionX=(snake_max_length*randonXposition)+snake_max_length
         bonus_positionY=(snake_max_length*randonYposition)+snake_max_length
     }
+    fun moveToGameOver(){
+        val intent=Intent(this,GameOverActivity::class.java)
+        intent.putExtra("Game_score",game_score)
+        intent.putExtra("Username",user_name)
+        startActivity(intent)
+    }
 
     private  fun moveSnake(){
         timer=Timer()
@@ -263,13 +271,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
                 if (checkGameOver(headPosx,headPosY)){
                     timer.purge()
                     timer.cancel()
-                    this@PlayingAreaActivity.runOnUiThread(Runnable {
-                        val alert=AlertDialog.Builder(applicationContext)
-                        alert.setTitle("Game Over!")
-                        alert.setMessage("Your Score is "+game_score.toString())
-                        alert.setCancelable(false)
-                        alert.show()
-                    })
+                    moveToGameOver()
 
                 }
                 else{
@@ -333,6 +335,9 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         },(150).toLong(),(150).toLong())
 
     }
+
+
+
     private  fun growSnake(){
         var snake_dot:SnakeDots= SnakeDots(0,0)
         snake_dots.add(snake_dot)

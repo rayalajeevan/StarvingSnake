@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="brow_for_app">#C8C4C2</color>
+    <color name="orange_200">#683b1e</color>
     <color name="bg_for_playingarea">#D8D3D3</color>
 
 </resources>
