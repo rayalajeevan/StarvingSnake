@@ -2,6 +2,7 @@ package com.example.starvingsnake
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -21,13 +22,13 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var button=findViewById<Button>(R.id.button_first)
-        button.setOnClickListener {
-            val intent=Intent(this,PlayingAreaActivity::class.java)
+
+        Handler().postDelayed(Runnable {
+            val intent = Intent(this, HomePageActivity::class.java)
             startActivity(intent)
-        }
-        }
+        }, 5000)
 
     }
+}
 
 

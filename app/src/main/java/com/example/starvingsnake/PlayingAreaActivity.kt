@@ -13,6 +13,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -27,6 +28,8 @@ import kotlin.concurrent.timerTask
 class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDetector.OnGestureListener {
     private lateinit  var surface_vew:SurfaceView
     private var user_name:String="User"
+    private var game_level:Int=1
+    private  var level_speed:Int=150
 
     private var snake_movable_position:String="t"
 
@@ -61,12 +64,18 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playing_area)
         score_view=findViewById<TextView>(R.id.score_update_textView)
+        user_name=intent.getStringExtra("Username").toString()
+        game_level=intent.getIntExtra("level",1).toInt()
         surface_vew=findViewById(R.id.surface_view)
 
         var top_Btn:AppCompatImageButton=findViewById(R.id.top_btn)
         var down_Btn:AppCompatImageButton=findViewById(R.id.down_btn)
         var left_Btn:AppCompatImageButton=findViewById(R.id.left_btn)
         var right_Btn:AppCompatImageButton=findViewById(R.id.right_btn)
+        var quit_button=findViewById<TextView>(R.id.quit_button)
+        quit_button.setOnClickListener {
+            moveToGameOver()
+        }
 
         surface_vew.holder.addCallback(this)
         top_Btn.setOnClickListener {
@@ -233,11 +242,22 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         val intent=Intent(this,GameOverActivity::class.java)
         intent.putExtra("Game_score",game_score)
         intent.putExtra("Username",user_name)
+        intent.putExtra("Username",user_name)
+        intent.putExtra("level",game_level)
         startActivity(intent)
     }
 
     private  fun moveSnake(){
         timer=Timer()
+        if(game_level==1){
+            level_speed=150
+        }
+        else if (game_level==2){
+            level_speed=100
+        }
+        else if(game_level==3){
+            level_speed=50
+        }
         timer.scheduleAtFixedRate(object :TimerTask(){
             override fun run() {
 
@@ -280,6 +300,17 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
                     canvas?.drawCircle(snake_dots.get(0).getPositionX().toFloat(),
                         snake_dots.get(0).getPositionY().toFloat(), snake_max_length.toFloat(),createpaintColor()
                     )
+                    if(bonus_point_enabled && headPosx==bonus_positionX && headPosY==bonus_positionY){
+                        bonus_point_enabled=false
+                        bonus_positionX=0
+                        bonus_positionY=0
+                        point_tounched_counter=0
+                        game_score+=10
+                        decreaseSnakeLength()
+                        this@PlayingAreaActivity.runOnUiThread(Runnable {
+                            score_view?.setText(game_score.toString())
+                        })
+                    }
                     canvas?.drawCircle(positionX.toFloat(),
                         positionY.toFloat(), snake_max_length.toFloat(),createpaintColor())
                     for(i in 1..snake_dots.size-1){
@@ -317,22 +348,12 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
                             createpaintColor(true)
                         )
                     }
-                    if(bonus_point_enabled && headPosx==bonus_positionX && headPosY==bonus_positionY){
-                        bonus_point_enabled=false
-                        bonus_positionX=0
-                        bonus_positionY=0
-                        point_tounched_counter=0
-                        game_score+=10
-                        decreaseSnakeLength()
-                        this@PlayingAreaActivity.runOnUiThread(Runnable {
-                            score_view?.setText(game_score.toString())
-                        })
-                    }
+
                     surface_holder.unlockCanvasAndPost(canvas)
                 }
 
             }
-        },(150).toLong(),(150).toLong())
+        },level_speed.toLong(),level_speed.toLong())
 
     }
 
