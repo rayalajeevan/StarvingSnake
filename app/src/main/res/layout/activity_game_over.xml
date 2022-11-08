@@ -25,6 +25,7 @@
 
     <TextView
         android:id="@+id/textView1"
+        android:fontFamily="@font/lobsterregular"
         android:layout_width="293dp"
         android:layout_height="103dp"
         android:layout_alignParentStart="true"
@@ -44,6 +45,7 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/lobsterregular"
         android:layout_height="80dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -63,6 +65,7 @@
         android:id="@+id/button"
         android:layout_width="260dp"
         android:layout_height="59dp"
+        android:fontFamily="@font/lobsterregular"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -83,6 +86,7 @@
         android:layout_width="178dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:fontFamily="@font/lobsterregular"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
