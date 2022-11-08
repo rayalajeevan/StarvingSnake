@@ -75,43 +75,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         game_level=intent.getIntExtra("level",1).toInt()
         surface_vew=findViewById(R.id.surface_view)
         ani_slide_zoom=android.view.animation.AnimationUtils.loadAnimation(applicationContext,R.animator.shake)
-        var top_Btn:AppCompatImageButton=findViewById(R.id.top_btn)
-        var down_Btn:AppCompatImageButton=findViewById(R.id.down_btn)
-        var left_Btn:AppCompatImageButton=findViewById(R.id.left_btn)
-        var right_Btn:AppCompatImageButton=findViewById(R.id.right_btn)
-        var quit_button=findViewById<TextView>(R.id.quit_button)
         surface_vew.holder.addCallback(this)
-        top_Btn.setOnClickListener {
-            if(!snake_movable_position.equals("b")){
-                snake_movable_position="t"
-            }
-        }
-
-        down_Btn.setOnClickListener {
-            if(!snake_movable_position.equals("t")){
-                snake_movable_position="b"
-            }
-        }
-
-        left_Btn.setOnClickListener {
-            if(!snake_movable_position.equals("r")){
-                snake_movable_position="l"
-            }
-        }
-
-        right_Btn.setOnClickListener {
-            if(!snake_movable_position.equals("l")){
-                snake_movable_position="r"
-            }
-        }
-        quit_button.setOnClickListener {
-            timer.purge()
-            timer.cancel()
-            moveToGameOver()
-
-
-        }
-
         gestureDetector= GestureDetector(this,this)
 
     }

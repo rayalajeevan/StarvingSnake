@@ -8,26 +8,9 @@
     tools:context=".PlayingAreaActivity">
 
 
-    <TextView
-        android:id="@+id/quit_button"
-        android:layout_width="68dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="329dp"
-        android:layout_marginTop="683dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/lobsterregular"
-        android:text="Quit"
-        android:textSize="20dp" />
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:layout_above="@+id/bottombar"
+        android:layout_height="726dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -35,82 +18,33 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginBottom="126dp"
+        android:layout_marginBottom="0dp"
         android:padding="6dp">
 
         <SurfaceView
             android:id="@+id/surface_view"
-            android:layout_width="398dp"
-            android:layout_height="575dp"
+            android:layout_width="461dp"
+            android:layout_height="813dp"
             android:soundEffectsEnabled="true" />
 
+        <TextView
+            android:id="@+id/score_update_textView"
+            android:layout_width="434dp"
+            android:layout_height="51dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="744dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="18dp"
+            android:fontFamily="@font/lobsterregular"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/score_update_textView"
-        android:layout_width="108dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="682dp"
-        android:layout_marginEnd="284dp"
-        android:layout_marginBottom="14dp"
-        android:fontFamily="@font/lobsterregular"
-        android:text="0"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
-
-    <LinearLayout
-        android:id="@+id/bottombar"
-        android:layout_width="match_parent"
-        android:layout_height="163dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="4dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/top_btn"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_baseline_keyboard_arrow_up_24" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/left_btn"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_chevron_left_24" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/right_btn"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="80dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_chevron_right_24" />
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/down_btn"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
-
-    </LinearLayout>
 
 
 </RelativeLayout>

@@ -19,5 +19,5 @@
         android:layout_marginTop="171dp"
         android:layout_marginEnd="19dp"
         android:layout_marginBottom="200dp"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/starving_snake" />
 </RelativeLayout>

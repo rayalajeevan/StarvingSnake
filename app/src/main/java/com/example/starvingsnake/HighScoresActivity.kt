@@ -13,7 +13,6 @@ class HighScoresActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_high_scores)
-        val home_btn=findViewById<ImageView>(R.id.imageView3)
         val highscore_text=findViewById<TextView>(R.id.textViewhigh)
         val frame_btn=findViewById<RelativeLayout>(R.id.highscores_frame)
         var player_1_username=findViewById<TextView>(R.id.player_1_username)
@@ -54,14 +53,9 @@ class HighScoresActivity : AppCompatActivity() {
                 ).toString()
             )
         }
-        home_btn.setOnClickListener {
-            val intent=Intent(this,HomePageActivity::class.java)
-            startActivity(intent)
-        }
         val ani_slide=android.view.animation.AnimationUtils.loadAnimation(applicationContext,R.animator.slide)
         val ani_slide_up=android.view.animation.AnimationUtils.loadAnimation(applicationContext,R.animator.slide_up)
         frame_btn.startAnimation(ani_slide_up)
-        home_btn.startAnimation(ani_slide)
         highscore_text.startAnimation(ani_slide)
         player_1_username.startAnimation(ani_slide_up)
         player_1_score.startAnimation(ani_slide_up)
@@ -80,6 +74,24 @@ class HighScoresActivity : AppCompatActivity() {
             startActivity(intent)
         }
         player_3_username.setOnClickListener {
+            val intent=Intent(this,PlayingAreaActivity::class.java)
+            intent.putExtra("Username",player_3_username.text.toString())
+            intent.putExtra("level",1)
+            startActivity(intent)
+        }
+        player_2_score.setOnClickListener {
+            val intent=Intent(this,PlayingAreaActivity::class.java)
+            intent.putExtra("Username",player_2_username.text.toString())
+            intent.putExtra("level",1)
+            startActivity(intent)
+        }
+        player_1_score.setOnClickListener {
+            val intent=Intent(this,PlayingAreaActivity::class.java)
+            intent.putExtra("Username",player_1_username.text.toString())
+            intent.putExtra("level",1)
+            startActivity(intent)
+        }
+        player_3_score.setOnClickListener {
             val intent=Intent(this,PlayingAreaActivity::class.java)
             intent.putExtra("Username",player_3_username.text.toString())
             intent.putExtra("level",1)
