@@ -1,6 +1,7 @@
 package com.example.starvingsnake
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
@@ -35,6 +36,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
     private var user_name:String="User"
     private var game_level:Int=1
     private  var level_speed:Int=150
+    private  var game_pause:Boolean=false
 
     private var snake_movable_position:String="t"
 
@@ -214,10 +216,9 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
     }
     fun moveToGameOver(){
         var db=DatabaseAdapter(this,null)
-        db.addScore(user_name.toString(),game_score.toInt())
+        db.addScore(user_name.toString(),game_score.toInt(),game_level.toString())
         val intent=Intent(this,GameOverActivity::class.java)
         intent.putExtra("Game_score",game_score)
-        intent.putExtra("Username",user_name)
         intent.putExtra("Username",user_name)
         intent.putExtra("level",game_level)
         startActivity(intent)
@@ -237,107 +238,114 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         }
         timer.scheduleAtFixedRate(object :TimerTask(){
             override fun run() {
-
-                var headPosx=snake_dots.get(0).getPositionX()
-                var headPosY=snake_dots.get(0).getPositionY()
-
-                if (headPosx==positionX && headPosY==positionY){
-                    point_tounched_counter=point_tounched_counter+1
-                    growSnake()
-
-                    addPoint()
-                }
-
-                if (snake_movable_position=="r"){
-                    snake_dots.get(0).setPositionX(headPosx+(snake_max_length*2))
-                    snake_dots.get(0).setPositionY(headPosY)
-                }
-                else if (snake_movable_position=="l"){
-                    snake_dots.get(0).setPositionX(headPosx-(snake_max_length*2))
-                    snake_dots.get(0).setPositionY(headPosY)
-                }
-                else if (snake_movable_position=="t"){
-                    snake_dots.get(0).setPositionX(headPosx)
-                    snake_dots.get(0).setPositionY(headPosY-(snake_max_length*2))
-                }
-                else if (snake_movable_position=="b"){
-                    snake_dots.get(0).setPositionX(headPosx)
-                    snake_dots.get(0).setPositionY(headPosY+(snake_max_length*2))
-                }
-
-                if (checkGameOver(headPosx,headPosY)){
-                    timer.purge()
-                    timer.cancel()
-                    this@PlayingAreaActivity.runOnUiThread(Runnable {
-                        surface_vew.startAnimation(ani_slide_zoom)
-                    })
-                    Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                        moveToGameOver()
-                    },1000)
+                if (game_pause == false) {
 
 
-                }
-                else{
-                    canvas=surface_holder.lockCanvas()
-                    canvas?.drawColor(Color.BLACK,PorterDuff.Mode.CLEAR)
-                    canvas?.drawCircle(snake_dots.get(0).getPositionX().toFloat(),
-                        snake_dots.get(0).getPositionY().toFloat(), snake_max_length.toFloat(),createpaintColor()
-                    )
-                    if(bonus_point_enabled && headPosx==bonus_positionX && headPosY==bonus_positionY){
-                        bonus_point_enabled=false
-                        bonus_positionX=0
-                        bonus_positionY=0
-                        point_tounched_counter=0
-                        game_score+=10
-                        decreaseSnakeLength()
+                    var headPosx = snake_dots.get(0).getPositionX()
+                    var headPosY = snake_dots.get(0).getPositionY()
+
+                    if (headPosx == positionX && headPosY == positionY) {
+                        point_tounched_counter = point_tounched_counter + 1
+                        growSnake()
+
+                        addPoint()
+                    }
+
+                    if (snake_movable_position == "r") {
+                        snake_dots.get(0).setPositionX(headPosx + (snake_max_length * 2))
+                        snake_dots.get(0).setPositionY(headPosY)
+                    } else if (snake_movable_position == "l") {
+                        snake_dots.get(0).setPositionX(headPosx - (snake_max_length * 2))
+                        snake_dots.get(0).setPositionY(headPosY)
+                    } else if (snake_movable_position == "t") {
+                        snake_dots.get(0).setPositionX(headPosx)
+                        snake_dots.get(0).setPositionY(headPosY - (snake_max_length * 2))
+                    } else if (snake_movable_position == "b") {
+                        snake_dots.get(0).setPositionX(headPosx)
+                        snake_dots.get(0).setPositionY(headPosY + (snake_max_length * 2))
+                    }
+
+                    if (checkGameOver(headPosx, headPosY)) {
+                        timer.purge()
+                        timer.cancel()
                         this@PlayingAreaActivity.runOnUiThread(Runnable {
-                            score_view?.setText(game_score.toString())
-                            score_view?.startAnimation(ani_slide_zoom)
+                            surface_vew.startAnimation(ani_slide_zoom)
                         })
-                    }
-                    canvas?.drawCircle(positionX.toFloat(),
-                        positionY.toFloat(), snake_max_length.toFloat(),createpaintColor())
-                    for(i in 1..snake_dots.size-1){
-                        var getTempPositionX=snake_dots.get(i).getPositionX()
-                        var getTempPositionY=snake_dots.get(i).getPositionY()
-                        snake_dots.get(i).setPositionX(headPosx)
-                        snake_dots.get(i).setPositionY(headPosY)
-                        canvas?.drawCircle(snake_dots.get(i).getPositionX().toFloat(),
-                            snake_dots.get(i).getPositionY().toFloat(), snake_max_length.toFloat(),createpaintColor()
-                        )
-                        headPosx=getTempPositionX
-                        headPosY=getTempPositionY
-                    }
-                    if(point_tounched_counter>=5) {
-                        if(bonus_point_enabled==false){
-                            addBonusPoint()
-                        }
-                        bonus_point_enabled=true
                         Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                                                       if(bonus_point_enabled){
-                                                           bonus_point_enabled=false
-                                                           point_tounched_counter=0
-                                                       }
-                        },5000)
-                        if (snake_bonus_point_length==40){
-                            snake_bonus_point_length=32
-                        }
-                        else{
-                            snake_bonus_point_length=40
+                            moveToGameOver()
+                        }, 1000)
+
+
+                    } else {
+                        canvas = surface_holder.lockCanvas()
+                        canvas?.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR)
+                        canvas?.drawCircle(
+                            snake_dots.get(0).getPositionX().toFloat(),
+                            snake_dots.get(0).getPositionY().toFloat(),
+                            snake_max_length.toFloat(),
+                            createpaintColor()
+                        )
+                        if (bonus_point_enabled && headPosx == bonus_positionX && headPosY == bonus_positionY) {
+                            bonus_point_enabled = false
+                            bonus_positionX = 0
+                            bonus_positionY = 0
+                            point_tounched_counter = 0
+                            game_score += 10
+                            decreaseSnakeLength()
+                            this@PlayingAreaActivity.runOnUiThread(Runnable {
+                                score_view?.setText(game_score.toString())
+                                score_view?.startAnimation(ani_slide_zoom)
+                            })
                         }
                         canvas?.drawCircle(
-                            bonus_positionX.toFloat(),
-                            bonus_positionY.toFloat(),
-                            snake_bonus_point_length.toFloat(),
-                            createpaintColor(true)
+                            positionX.toFloat(),
+                            positionY.toFloat(), snake_max_length.toFloat(), createpaintColor()
                         )
+                        for (i in 1..snake_dots.size - 1) {
+                            var getTempPositionX = snake_dots.get(i).getPositionX()
+                            var getTempPositionY = snake_dots.get(i).getPositionY()
+                            snake_dots.get(i).setPositionX(headPosx)
+                            snake_dots.get(i).setPositionY(headPosY)
+                            canvas?.drawCircle(
+                                snake_dots.get(i).getPositionX().toFloat(),
+                                snake_dots.get(i).getPositionY().toFloat(),
+                                snake_max_length.toFloat(),
+                                createpaintColor()
+                            )
+                            headPosx = getTempPositionX
+                            headPosY = getTempPositionY
+                        }
+                        if (point_tounched_counter >= 5) {
+                            if (bonus_point_enabled == false) {
+                                addBonusPoint()
+                            }
+                            bonus_point_enabled = true
+                            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                                if (bonus_point_enabled) {
+                                    bonus_point_enabled = false
+                                    point_tounched_counter = 0
+                                }
+                            }, 5000)
+                            if (snake_bonus_point_length == 40) {
+                                snake_bonus_point_length = 32
+                            } else {
+                                snake_bonus_point_length = 40
+                            }
+                            canvas?.drawCircle(
+                                bonus_positionX.toFloat(),
+                                bonus_positionY.toFloat(),
+                                snake_bonus_point_length.toFloat(),
+                                createpaintColor(true)
+                            )
+                        }
+
+                        surface_holder.unlockCanvasAndPost(canvas)
                     }
 
-                    surface_holder.unlockCanvasAndPost(canvas)
                 }
-
             }
         },level_speed.toLong(),level_speed.toLong())
+
 
     }
 
@@ -398,9 +406,26 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
     }
 
     override fun onBackPressed() {
-        timer.purge()
-        timer.cancel()
-        super.onBackPressed()
+        game_pause=true
+        makeAlertDialog()
+
+    }
+
+    fun makeAlertDialog(){
+        var builder=AlertDialog.Builder(this)
+        builder.setPositiveButton("Quit",DialogInterface.OnClickListener { dialogInterface, i ->
+            timer.purge()
+            timer.cancel()
+            super.onBackPressed()
+        })
+        builder.setNegativeButton("Cancel",DialogInterface.OnClickListener { dialogInterface, i ->
+            dialogInterface.dismiss()
+            game_pause=false
+
+        })
+        val alert=builder.create()
+        alert.setTitle("Are you sure")
+        alert.show()
     }
 }
 

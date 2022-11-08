@@ -1,10 +1,18 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.starvingsnake.MainActivity">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/easy_btn"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/easy_string"
+        />
+    <item
+        android:id="@+id/medium_btn"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/medium_string"/>
+    <item
+        android:id="@+id/high_btn"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/high_string"/>
 </menu>

@@ -18,21 +18,20 @@ class GameLevelsActivity : AppCompatActivity() {
             intent.putExtra("Username",user_name)
             intent.putExtra("level",3)
             startActivity(intent)
-            finish()
         }
         med_btn.setOnClickListener {
             val intent = Intent(this, PlayingAreaActivity::class.java)
             intent.putExtra("Username",user_name)
             intent.putExtra("level",2)
             startActivity(intent)
-            finish()
+
         }
         easy_btn.setOnClickListener {
             val intent = Intent(this, PlayingAreaActivity::class.java)
             intent.putExtra("Username",user_name)
             intent.putExtra("level",1)
             startActivity(intent)
-            finish()
+
         }
         val ani_slide_up=android.view.animation.AnimationUtils.loadAnimation(applicationContext,R.animator.left_to_right_slide)
         easy_btn.startAnimation(ani_slide_up)

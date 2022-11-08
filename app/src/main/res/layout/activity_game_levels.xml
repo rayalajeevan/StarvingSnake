@@ -9,60 +9,60 @@
 
     <Button
         android:id="@+id/easy_btn"
-        android:layout_width="233dp"
+        android:layout_width="232dp"
         android:layout_height="51dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/round1"
-        android:text="Easy"
         android:fontFamily="@font/lobsterregular"
+        android:text="Easy"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.393"
+        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.423" />
+        app:layout_constraintVertical_bias="0.427" />
 
     <Button
         android:id="@+id/med_btn"
-        android:layout_width="226dp"
-        android:layout_height="wrap_content"
+        android:layout_width="232dp"
+        android:layout_height="51dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/round1"
-        android:text="Medium"
         android:fontFamily="@font/lobsterregular"
+        android:text="Medium"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.538" />
+        app:layout_constraintVertical_bias="0.534" />
 
     <Button
         android:id="@+id/high_btn"
-        android:layout_width="231dp"
-        android:layout_height="56dp"
+        android:layout_width="232dp"
+        android:layout_height="51dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/round1"
-        android:text="High"
         android:fontFamily="@font/lobsterregular"
+        android:text="High"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.427"
+        app:layout_constraintHorizontal_bias="0.438"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.657" />
+        app:layout_constraintVertical_bias="0.646" />
 
     <TextView
         android:id="@+id/textView2"
