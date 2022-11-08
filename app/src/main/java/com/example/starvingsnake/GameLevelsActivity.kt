@@ -31,5 +31,9 @@ class GameLevelsActivity : AppCompatActivity() {
             intent.putExtra("level",1)
             startActivity(intent)
         }
+        val ani_slide_up=android.view.animation.AnimationUtils.loadAnimation(applicationContext,R.animator.left_to_right_slide)
+        easy_btn.startAnimation(ani_slide_up)
+        high_btn.startAnimation(ani_slide_up)
+        med_btn.startAnimation(ani_slide_up)
     }
 }

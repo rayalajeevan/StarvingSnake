@@ -67,6 +67,24 @@ class HighScoresActivity : AppCompatActivity() {
         player_1_score.startAnimation(ani_slide_up)
         player_2_username.startAnimation(ani_slide_up)
         player_2_score.startAnimation(ani_slide_up)
+        player_2_username.setOnClickListener {
+            val intent=Intent(this,PlayingAreaActivity::class.java)
+            intent.putExtra("Username",player_2_username.text.toString())
+            intent.putExtra("level",1)
+            startActivity(intent)
+        }
+        player_1_username.setOnClickListener {
+            val intent=Intent(this,PlayingAreaActivity::class.java)
+            intent.putExtra("Username",player_1_username.text.toString())
+            intent.putExtra("level",1)
+            startActivity(intent)
+        }
+        player_3_username.setOnClickListener {
+            val intent=Intent(this,PlayingAreaActivity::class.java)
+            intent.putExtra("Username",player_3_username.text.toString())
+            intent.putExtra("level",1)
+            startActivity(intent)
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 package com.example.starvingsnake
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class PlayerDeatilsActivity : AppCompatActivity() {
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player_deatils)
@@ -28,8 +30,14 @@ class PlayerDeatilsActivity : AppCompatActivity() {
         back_btn.setOnClickListener {
             onBackPressed()
         }
+        val ani_slide_up=android.view.animation.AnimationUtils.loadAnimation(applicationContext,R.animator.slide_up)
+        back_btn.startAnimation(ani_slide_up)
+        submit_btn.startAnimation(ani_slide_up)
+        player_name.startAnimation(ani_slide_up)
     }
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
+
 }

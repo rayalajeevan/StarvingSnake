@@ -1,5 +1,6 @@
 package com.example.starvingsnake
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
@@ -14,6 +15,8 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -62,6 +65,8 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
     lateinit var gestureDetector: GestureDetector
     private val SWIPE_THRESHOLD: Int = 100
     private val SWIPE_VELOCITY_THRESHOLD: Int = 100
+    private  lateinit var ani_slide_zoom:Animation
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playing_area)
@@ -69,6 +74,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
         user_name=intent.getStringExtra("Username").toString()
         game_level=intent.getIntExtra("level",1).toInt()
         surface_vew=findViewById(R.id.surface_view)
+        ani_slide_zoom=android.view.animation.AnimationUtils.loadAnimation(applicationContext,R.animator.shake)
         var top_Btn:AppCompatImageButton=findViewById(R.id.top_btn)
         var down_Btn:AppCompatImageButton=findViewById(R.id.down_btn)
         var left_Btn:AppCompatImageButton=findViewById(R.id.left_btn)
@@ -298,7 +304,13 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
                 if (checkGameOver(headPosx,headPosY)){
                     timer.purge()
                     timer.cancel()
-                    moveToGameOver()
+                    this@PlayingAreaActivity.runOnUiThread(Runnable {
+                        surface_vew.startAnimation(ani_slide_zoom)
+                    })
+                    Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                        moveToGameOver()
+                    },1000)
+
 
                 }
                 else{
@@ -316,6 +328,7 @@ class PlayingAreaActivity : AppCompatActivity(),SurfaceHolder.Callback,GestureDe
                         decreaseSnakeLength()
                         this@PlayingAreaActivity.runOnUiThread(Runnable {
                             score_view?.setText(game_score.toString())
+                            score_view?.startAnimation(ani_slide_zoom)
                         })
                     }
                     canvas?.drawCircle(positionX.toFloat(),
